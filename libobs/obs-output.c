@@ -1251,6 +1251,12 @@ static bool add_caption(struct obs_output *output, struct encoder_packet *out)
 }
 #endif
 
+// Add prototype before usage.
+static struct caption_text *caption_text_new(const char *text, size_t bytes,
+                                             struct caption_text *tail,
+                                             struct caption_text **head,
+                                             double display_duration);
+
 static inline void send_interleaved(struct obs_output *output)
 {
 	struct encoder_packet out = output->interleaved_packets.array[0];
@@ -1269,20 +1275,27 @@ static inline void send_interleaved(struct obs_output *output)
 #if BUILD_CAPTIONS
 		pthread_mutex_lock(&output->caption_mutex);
 
-		double frame_timestamp =
-			(out.pts * out.timebase_num) / (double)out.timebase_den;
+		double frame_timestamp = (out.pts * out.timebase_num) / (double)out.timebase_den;
 
-		if (output->caption_head &&
-		    output->caption_timestamp <= frame_timestamp) {
-			blog(LOG_DEBUG, "Sending caption: %f \"%s\"",
-			     frame_timestamp, &output->caption_head->text[0]);
+		blog(LOG_DEBUG, "Frame timestamp: %f", frame_timestamp);
 
-			double display_duration =
-				output->caption_head->display_duration;
+
+                // Add caption one time.
+//		static bool caption_added = false;
+//		if (!caption_added) {
+                        const char *test_text = "{\"name\":\"alexey\",\"age\":31}";
+                        double duration = 2.0;
+                        output->caption_tail = caption_text_new(test_text, strlen(test_text), output->caption_tail, &output->caption_head, duration);
+//                        caption_added = true;
+//		}
+
+
+		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
+                        blog(LOG_DEBUG, "Sending caption: %f \"%s\"", frame_timestamp, &output->caption_head->text[0]);
+                        double display_duration = output->caption_head->display_duration;
 
 			if (add_caption(output, &out)) {
-				output->caption_timestamp =
-					frame_timestamp + display_duration;
+				output->caption_timestamp = frame_timestamp + display_duration;
 			}
 		}
 

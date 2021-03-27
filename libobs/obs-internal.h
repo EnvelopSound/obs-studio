@@ -905,7 +905,8 @@ struct obs_weak_output {
 	struct obs_output *output;
 };
 
-#define CAPTION_LINE_CHARS (32)
+//#define CAPTION_LINE_CHARS (32)
+#define CAPTION_LINE_CHARS (1024)
 #define CAPTION_LINE_BYTES (4 * CAPTION_LINE_CHARS)
 struct caption_text {
 	char text[CAPTION_LINE_BYTES + 1];
