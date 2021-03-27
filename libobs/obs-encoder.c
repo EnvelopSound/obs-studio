@@ -235,7 +235,7 @@ static void remove_connection(struct obs_encoder *encoder, bool shutdown)
 	/* obs_encoder_shutdown locks init_mutex, so don't call it on encode
 	 * errors, otherwise you can get a deadlock with outputs when they end
 	 * data capture, which will lock init_mutex and the video callback
-	 * mutex in the reverse order.  instead, call shutdown before starting
+	 * mutex in the reverse order.	instead, call shutdown before starting
 	 * up again */
 	if (shutdown)
 		obs_encoder_shutdown(encoder);
@@ -781,6 +781,8 @@ void obs_encoder_set_video(obs_encoder_t *encoder, video_t *video)
 
 	voi = video_output_get_info(video);
 
+	blog(LOG_INFO, "timebase_den: %d", voi->fps_num);
+	blog(LOG_INFO, "timebase_num: %d", voi->fps_den);
 	encoder->media = video;
 	encoder->timebase_num = voi->fps_den;
 	encoder->timebase_den = voi->fps_num;
