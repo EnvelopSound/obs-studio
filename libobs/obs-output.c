@@ -1252,6 +1252,12 @@ static bool add_caption(struct obs_output *output, struct encoder_packet *out)
 }
 #endif
 
+// Add prototype before usage.
+static struct caption_text *caption_text_new(const char *text, size_t bytes,
+					     struct caption_text *tail,
+					     struct caption_text **head,
+					     double display_duration);
+
 static inline void send_interleaved(struct obs_output *output)
 {
 	struct encoder_packet out = output->interleaved_packets.array[0];
