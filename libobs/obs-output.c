@@ -1278,18 +1278,18 @@ static inline void send_interleaved(struct obs_output *output)
 
 		double frame_timestamp = (out.pts * out.timebase_num) / (double)out.timebase_den;
 
-		char json_blob[1024] = "";
+		// char json_blob[1024] = "";
 		//struct timeval tv;
 		//gettimeofday(&tv, NULL);
 
 		//const char *test_text = "{\"ts\": %lf, \"time:\": %ld.%ld}";
 
-		const char *test_text = "{\"ts\": %lf}";
-		sprintf(json_blob, test_text, frame_timestamp);
+		// const char *test_text = "{\"ts\": %lf}";
+		// sprintf(json_blob, test_text, frame_timestamp);
 
-		double duration = 0.016;
-		output->caption_tail = caption_text_new(json_blob, strlen(json_blob), output->caption_tail, &output->caption_head, duration);
+		// output->caption_tail = caption_text_new(json_blob, strlen(json_blob), output->caption_tail, &output->caption_head, duration);
 
+		double duration = 0.01;
 		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
 
 			double display_duration = output->caption_head->display_duration;
