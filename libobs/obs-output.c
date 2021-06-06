@@ -1289,7 +1289,7 @@ static inline void send_interleaved(struct obs_output *output)
 
 		// output->caption_tail = caption_text_new(json_blob, strlen(json_blob), output->caption_tail, &output->caption_head, duration);
 
-		double duration = 0.01;
+		double duration = 0.033;
 		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
 
 			double display_duration = output->caption_head->display_duration;
