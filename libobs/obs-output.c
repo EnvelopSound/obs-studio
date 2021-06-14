@@ -22,7 +22,6 @@
 #include "obs-internal.h"
 
 #if BUILD_CAPTIONS
-//#include <sys/time.h>
 #include <caption/caption.h>
 #include <caption/mpeg.h>
 #endif
@@ -1277,17 +1276,6 @@ static inline void send_interleaved(struct obs_output *output)
 		pthread_mutex_lock(&output->caption_mutex);
 
 		double frame_timestamp = (out.pts * out.timebase_num) / (double)out.timebase_den;
-
-		// char json_blob[1024] = "";
-		//struct timeval tv;
-		//gettimeofday(&tv, NULL);
-
-		//const char *test_text = "{\"ts\": %lf, \"time:\": %ld.%ld}";
-
-		// const char *test_text = "{\"ts\": %lf}";
-		// sprintf(json_blob, test_text, frame_timestamp);
-
-		// output->caption_tail = caption_text_new(json_blob, strlen(json_blob), output->caption_tail, &output->caption_head, duration);
 
 		double duration = 0.033;
 		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
