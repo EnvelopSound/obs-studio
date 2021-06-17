@@ -781,8 +781,6 @@ void obs_encoder_set_video(obs_encoder_t *encoder, video_t *video)
 
 	voi = video_output_get_info(video);
 
-	blog(LOG_INFO, "timebase_den: %d", voi->fps_num);
-	blog(LOG_INFO, "timebase_num: %d", voi->fps_den);
 	encoder->media = video;
 	encoder->timebase_num = voi->fps_den;
 	encoder->timebase_den = voi->fps_num;

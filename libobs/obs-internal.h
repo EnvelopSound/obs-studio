@@ -527,7 +527,7 @@ extern void obs_context_data_setname(struct obs_context_data *context,
 				     const char *name);
 
 /* ------------------------------------------------------------------------- */
-/* ref-counting	 */
+/* ref-counting  */
 
 struct obs_weak_ref {
 	volatile long refs;
