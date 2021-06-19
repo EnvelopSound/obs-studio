@@ -905,8 +905,7 @@ struct obs_weak_output {
 	struct obs_output *output;
 };
 
-#define CAPTION_LINE_CHARS (32)
-#define CAPTION_LINE_BYTES (4 * CAPTION_LINE_CHARS)
+#define CAPTION_LINE_BYTES (8 * 1024)
 struct caption_text {
 	char text[CAPTION_LINE_BYTES + 1];
 	double display_duration;
@@ -1107,7 +1106,7 @@ struct obs_encoder {
 
 	bool destroy_on_stop;
 
-	/* stores the video/audio media output pointer.  video_t *or audio_t **/
+	/* stores the video/audio media output pointer.	 video_t *or audio_t **/
 	void *media;
 
 	pthread_mutex_t callbacks_mutex;

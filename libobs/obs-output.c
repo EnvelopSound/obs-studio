@@ -1173,7 +1173,7 @@ static inline void apply_interleaved_packet_offset(struct obs_output *output,
 	int64_t offset;
 
 	/* audio and video need to start at timestamp 0, and the encoders
-	 * may not currently be at 0 when we get data.  so, we store the
+	 * may not currently be at 0 when we get data.	so, we store the
 	 * current dts as offset and subtract that value from the dts/pts
 	 * of the output packet. */
 	offset = (out->type == OBS_ENCODER_VIDEO)
@@ -1251,6 +1251,12 @@ static bool add_caption(struct obs_output *output, struct encoder_packet *out)
 }
 #endif
 
+// Add prototype before usage.
+static struct caption_text *caption_text_new(const char *text, size_t bytes,
+					     struct caption_text *tail,
+					     struct caption_text **head,
+					     double display_duration);
+
 static inline void send_interleaved(struct obs_output *output)
 {
 	struct encoder_packet out = output->interleaved_packets.array[0];
@@ -1269,20 +1275,15 @@ static inline void send_interleaved(struct obs_output *output)
 #if BUILD_CAPTIONS
 		pthread_mutex_lock(&output->caption_mutex);
 
-		double frame_timestamp =
-			(out.pts * out.timebase_num) / (double)out.timebase_den;
+		double frame_timestamp = (out.pts * out.timebase_num) / (double)out.timebase_den;
 
-		if (output->caption_head &&
-		    output->caption_timestamp <= frame_timestamp) {
-			blog(LOG_DEBUG, "Sending caption: %f \"%s\"",
-			     frame_timestamp, &output->caption_head->text[0]);
+		double duration = 0.033;
+		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
 
-			double display_duration =
-				output->caption_head->display_duration;
+			double display_duration = output->caption_head->display_duration;
 
 			if (add_caption(output, &out)) {
-				output->caption_timestamp =
-					frame_timestamp + display_duration;
+				output->caption_timestamp = frame_timestamp + display_duration;
 			}
 		}
 
