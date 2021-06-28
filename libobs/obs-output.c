@@ -1277,7 +1277,7 @@ static inline void send_interleaved(struct obs_output *output)
 
 		double frame_timestamp = (out.pts * out.timebase_num) / (double)out.timebase_den;
 
-		double duration = 0.033;
+		double duration = 0.01;
 		if (output->caption_head && output->caption_timestamp <= frame_timestamp) {
 
 			double display_duration = output->caption_head->display_duration;
